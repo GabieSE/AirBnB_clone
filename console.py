@@ -17,7 +17,7 @@ from models.city import City
 
 def split_braces(my_another_line):
     """
-     a function that split curly braces 
+     a function that split curly braces
     """
 
     braces = re.search(r"\{(.*?)\}", my_another_line)
@@ -44,12 +44,13 @@ def split_braces(my_another_line):
         except Exception:
             print("** argument missing **")
 
+
 class HBNBCommand(cmd.Cmd):
     """ Class for the command interpreter """
-    
+
     prompt = "(hbnb) "
     super_class = ["BaseModel", "User", "Amenity",
-                    "Review", "State", "City", "Place"]
+                   "Review", "State", "City", "Place"]
 
     def emptyline(self):
         """
@@ -72,12 +73,12 @@ class HBNBCommand(cmd.Cmd):
          a function that quits and exit the program
         """
         print()
-        
+
         return True
 
     def help_quit(self, line):
         """
-         a function that handles 
+         a function that handles
          'help'
         """
 
@@ -161,7 +162,7 @@ class HBNBCommand(cmd.Cmd):
         if len(cmds) == 0:
             for key, value in re_objects.items():
                 print(str(value))
-        
+
         elif cmds[0] not in self.super_class:
             print("** class doesn't exist **")
 
@@ -185,8 +186,6 @@ class HBNBCommand(cmd.Cmd):
         my_method = cmd[0]
 
         my_another_line = cmd[1].split(')')[0]
-        
-
 
         my_method_dict = {
                 'all': self.do_all,
@@ -194,25 +193,25 @@ class HBNBCommand(cmd.Cmd):
                 'destroy': self.do_destroy,
                 'update': self.do_update,
                 'count': self.do_count
-        }
+            }
 
         if my_method in my_method_dict.keys():
             if my_method != "update":
-                return my_method_dict[my_method]("{} {}".format(my_class_name,
-                                                            my_another_line))
+                return my_method_dict[my_method]("{} {}".format(
+                    my_class_name, my_another_line))
             else:
                 obj_id, dict_line = split_braces(my_another_line)
                 try:
                     if isinstance(dict_line, str):
                         attributes = dict_line
-                        return my_method_dict[my_method]("{} {} {}".format(my_class_name,
-                                                                            obj_id,
-                                                                            attributes))
+                        return my_method_dict[my_method]("{} {} {}".format(
+                            my_class_name,
+                            obj_id,
+                            attributes))
                     elif isinstance(dict_line, dict):
                         attr_dict = dict_line
-                        return my_method_dict[my_method]("{} {} {}".format(my_class_name,
-                                                                        obj_id,
-                                                                        attr_dict))
+                        return my_method_dict[my_method]("{} {} {}".format(
+                            my_class_name, obj_id, attr_dict))
                 except Exception:
                     print("** argument missing **")
 
@@ -243,7 +242,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class name missing **")
 
-
     def do_update(self, line):
         """Updates an instance by adding or updating attribute.
         """
@@ -262,7 +260,7 @@ class HBNBCommand(cmd.Cmd):
             re_objects = storage.all()
 
             key = "{}.{}".format(cmds[0], cmds[1])
-            
+
             if key not in re_objects:
                 print("** no instance found **")
 
@@ -308,4 +306,3 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-
